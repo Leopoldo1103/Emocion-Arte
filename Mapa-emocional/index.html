@@ -1,0 +1,67 @@
+<HTML>
+    <HEAD>
+        <title>What a feeling</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="script.js"></script>
+        <meta charset="UTF-8">
+    </HEAD>
+    <BODY>
+        <div class="container">
+            <div id="left">
+                <!------------------- Objetos a arrastrar ------------------->
+                <!-- Objeto 1 -->
+                <div class="list" draggable="true">
+                    <img src="../img/Phoboslogo2.jpg" width="50px" height="50px">Objeto 1
+                </div>
+                <!-- Objeto 2 -->
+                <div class="list" draggable="true">
+                    <img src="../img/Phoboslogo2.jpg" width="50px" height="50px">Objeto 2
+                </div>
+                <!-- Objeto 3 -->
+                <div class="list" draggable="true">
+                    <img src="../img/Phoboslogo2.jpg" width="50px" height="50px">Objeto 3
+                </div>
+                <!-- Objeto 4 -->
+                <div class="list" draggable="true">
+                    <img src="../img/Phoboslogo2.jpg" width="50px" height="50px">Objeto 4
+                </div>
+            </div>
+            <div id="right">
+                <div class="list" draggable="true">
+                    <img src="../img/Phoboslogo2.jpg" width="50px" height="50px">Objeto 1
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let lists = document.getElementsByClassName("list");
+            let rightBox = document.getElementById("right");
+            let leftBox = document.getElementById("left");
+
+            let selected = null;
+
+            for (list of lists) {
+            list.addEventListener("dragstart", function (e) {
+                selected = e.target;
+                e.preventDefault(); // Prevenir arrastre por defecto
+                e.dataTransfer.setData("text/plain", selected.id);
+            });
+
+            list.addEventListener("dragend", function (e) {
+                selected = null;
+            });
+            }
+
+            rightBox.addEventListener("dragover", function (e) {
+            e.preventDefault();
+            });
+
+            rightBox.addEventListener("drop", function (e) {
+            const draggedElementId = e.dataTransfer.getData("text/plain");
+            const draggedElement = document.getElementById(draggedElementId);
+            rightBox.appendChild(draggedElement);
+            selected = null;
+            });
+        </script>
+    </BODY>
+</HTML>
