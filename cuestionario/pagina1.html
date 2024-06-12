@@ -1,0 +1,39 @@
+<HTML>
+    <HEAD>
+        <title>What a feeling</title>
+        <link rel="stylesheet" type="text/css" href="cuestionario.css"></link>
+        <script src="script.js"></script>
+        <meta charset="UTF-8">
+    </HEAD>
+    <BODY class="contenedor-centrado">
+        <div class="form-container show">
+            <table>
+                <form>
+                    <!-- EDAD -->
+                    <tr>
+                        <td>
+                            <p class="parrafo-edad">Edad</p>
+                        </td>
+                        <td>
+                            <input type="number" id="edadInput" name="edad"
+                            oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); checkEdadInput()" maxlength="2">
+                        </td>
+                    </tr>
+                </form>
+            </table>
+            <br>
+            <button type="button" id="nextButton" onclick="goToNextPage()" disabled>Siguiente</button>    
+            <INPUT TYPE="button" VALUE="Home" ONCLICK="window.location.href='../index.html'">
+        </div>
+        <script> /* NO TOCAR SCRIPT */
+            function goToNextPage(){
+                const edadInput = document.getElementById("edadInput");
+                if (edadInput.value.trim() === ""){
+                    alert("Por favor, rellena el campo de edad.");
+                } else {
+                    window.location.href = "pagina2.html"
+                }
+            }
+        </script>
+    </BODY>
+</HTML>

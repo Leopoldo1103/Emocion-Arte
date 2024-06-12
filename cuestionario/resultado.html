@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<HTML>
+    <HEAD>
+        <title>What a Feeling</title>
+        <meta charset="UTF-8">
+    </HEAD>
+    <BODY>
+        <div class="container">
+            <h1>Tus emociones</h1>
+            <p id="emociones"></p>
+            <p id="estado-emocional"></p>
+        </div>
+        <INPUT TYPE="button" VALUE="Home" ONCLICK="window.location.href='../index.html'">
+    </BODY>
+</HTML>
+
+<script>
+// Función para obtener las emociones del localStorage
+function obtenerEmociones() {
+  return JSON.parse(localStorage.getItem('emociones')) || [];
+}
+
+// Función para obtener el estado emocional
+function obtenerEstadoEmocional() {
+  // Leer las categorías del localStorage
+  const categorias = JSON.parse(localStorage.getItem('categorias'));
+
+  // Contar las respuestas para cada categoría
+  const respuestas = obtenerEmociones();
+  const recuento = {};
+  for (const respuesta of respuestas) {
+    recuento[respuesta] = (recuento[respuesta] || 0);
+  }
+
+  // Si hay respuestas de más de una categoría, el estado emocional es complejo
+  if (Object.keys(recuento).length > 1) {
+    return 'complejo';
+  }
+
+  // Si solo hay una respuesta, el estado emocional es la categoría de esa respuesta
+  if (respuestas.length === 1) {
+    return respuestas[0];
+  }
+
+  // Si se seleccionaron dos o más emociones, mostrar la primera
+  // (o una emoción aleatoria si se seleccionaron las mismas)
+  const indiceAleatorio = Math.floor(Math.random() * respuestas.length);
+  return respuestas[indiceAleatorio];
+}
+
+// Función para mostrar las emociones y el estado emocional
+function mostrarEmociones() {
+  // Obtener las emociones del localStorage
+  const emociones = obtenerEmociones();
+
+  // Si hay emociones, mostrarlas
+  if (emociones.length > 0) {
+    const emocionesElement = document.getElementById('emociones');
+    emocionesElement.textContent = `Te sientes ${emociones.join(', ')}`;
+  }
+
+  // Obtener el estado emocional
+  const estadoEmocional = obtenerEstadoEmocional();
+
+  // Mostrar el estado emocional
+  const estadoEmocionalElement = document.getElementById('estado-emocional');
+  if (estadoEmocional === 'complejo') {
+    estadoEmocionalElement.textContent = 'Estado emocional complejo';
+  } else {
+    estadoEmocionalElement.textContent = `Estado emocional simple: ${estadoEmocional}`;
+  }
+}
+
+// Función para limpiar el localStorage
+function limpiarLocalStorage() {
+  // Eliminar todas las claves del localStorage
+  localStorage.clear();
+}
+
+// Agregar un temporizador que se ejecuta cada 10 minutos
+setInterval(limpiarLocalStorage, 600);
+
+// Agregar eventos a las preguntas
+const preguntas = document.querySelectorAll('input[type="radio"]');
+for (const pregunta of preguntas) {
+  pregunta.addEventListener('change', () => {
+    // Obtener la respuesta seleccionada
+    const respuesta = pregunta.value;
+
+    // Si no hay respuesta seleccionada, salir
+    if (!respuesta) {
+      return;
+    }
+
+    // Si no hay respuesta seleccionada y la pregunta tiene un valor por defecto, usar el valor por defecto
+    if (!respuesta && pregunta.defaultChecked) {
+      emociones.push(pregunta.getAttribute('data-emocion'));
+    }
+
+    // Guardar las emociones en el localStorage
+    localStorage.setItem('emociones', JSON.stringify(emociones));
+
+    // Mostrar el resultado
+    mostrarEmociones();
+  });
+}
+
+// Mostrar las emociones y el estado emocional al cargar la página
+mostrarEmociones();
+</script>
