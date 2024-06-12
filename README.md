@@ -12,3 +12,4 @@ La pagina esta compuesta por varios apartados, en los cuales puedes hacer:
 - [ ] Puedes consultar graficas e informaciones sobre la salud mental
 - [ ] Puedes realizar tu propio mapa emocional
 
+Emoción-Arte © 2024 by Francisco Leopoldo Navarro Munuera is licensed under CC BY-NC-ND 4.0. 
